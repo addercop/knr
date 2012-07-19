@@ -60,6 +60,8 @@ int main(int argc, char *argv[])
 				lengths[current_length]++;
 			}
 			current_length = 0;
+			//seems to be superfluous. oh well.
+			state = IN_WHITE;
 		}
 
 		c = getchar();
