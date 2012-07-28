@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int htoi(char s[]);
-int int_from_hex_digit(char h);
+int htoi(char *s);
 
 int main()
 {
@@ -26,39 +25,58 @@ int main()
 	return 0;
 }
 
-int htoi(char s[])
+int htoi(char *s)
 {
 	int n = 0;
 	int h;
-	char *p;
 	
-	p = s;
-	//check if prefix exists.
-	if(strncmp(s,"0x",2) == 0 || strncmp(s,"0X",2) == 0)
+	//Zero length string.
+	if(*s == '\0')
 	{
-		printf("Found prefix on this string.\n");
-		//skip prefix
-		p += 2;
+		return 0;
 	}
 
-	for(n = 0; (h = int_from_hex_digit(*p)) != -1; p++)
+	//check leading '0x' or '0X'
+	if(*s == '0')
 	{
-		printf("Found digit %d\n", h);
+		s++;
+	}
+
+	//in case string was just '0'.
+	if(*s == '\0')
+	{
+		return 0;
+	}
+
+	if(*s == 'x' || *s == 'X')
+	{
+		s++;
+	}
+
+	while(1)
+	{
+
+		if('0' <= *s && *s <= '9')
+		{
+			h = *s - '0';
+		}
+		else if('a' <= *s && *s <= 'f')
+		{
+			h = *s - 'a';
+		}
+		else if('A' <= *s && *s <= 'F')
+		{
+			h = *s - 'A';
+		}
+		else
+		{
+			break;
+		}
+
 		n = n*16 + h;
+		s++;
 	}
 
 	printf("Returning %d\n",n);
 	return n;	
-}
-
-int int_from_hex_digit(char h)
-{
-	if('0' <= h && h <= '9')
-		return h-'0';
-	if('a' <= h && h <= 'f')
-		return 10 + (h-'a');
-	if('A' <= h && h <= 'F')
-		return 10 + (h-'A');
-
-	return -1;
 }
