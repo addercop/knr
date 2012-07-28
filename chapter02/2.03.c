@@ -28,7 +28,7 @@ int main()
 int htoi(char *s)
 {
 	int n = 0;
-	int h;
+	int offset;
 	
 	//Zero length string.
 	if(*s == '\0')
@@ -58,22 +58,22 @@ int htoi(char *s)
 
 		if('0' <= *s && *s <= '9')
 		{
-			h = *s - '0';
+			offset = '0';
 		}
 		else if('a' <= *s && *s <= 'f')
 		{
-			h = *s - 'a';
+			offset = 'a';
 		}
 		else if('A' <= *s && *s <= 'F')
 		{
-			h = *s - 'A';
+			offset = 'A';
 		}
 		else
 		{
 			break;
 		}
 
-		n = n*16 + h;
+		n = n*16 + (*s - offset);
 		s++;
 	}
 
